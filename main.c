@@ -1,47 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
-void bfs(int a[10][10],int n,int visited[10],int source)
+#include <string.h>
+int count;
+int bfsm(char t[20], char p[10])
 {
-    int q[10],rear=-1,front=0,delnode,i;
-    visited[source]=1;
-    q[++rear]=source;
-    while(front<=rear)
+    int n,m,i,j;
+    n=strlen(t);
+    m=strlen(p);
+    for(i=0;i<=n;i++)
     {
-        delnode=q[front++];
-        for(i=1;i<=n;i++)
+        j=0;
+        while(j<m&&p[j]==t[i+j])
         {
-            if(a[delnode][i]==1&&visited[i]==0)
-            {
-                q[++rear]=i;
-                visited[i]=1;
-            }
+            j=j+1;
+            count++;
         }
+        count++;
+        if(j==m)
+
+         return i;
     }
+    return -1;
 }
 int main()
 {
-    int n,a[10][10],i,j,visited[10],count=0;
-    printf("\nRead number of nodes:");
-    scanf("%d",&n);
-    printf("\nRead adjacency matrix\n");
-    for(i=1;i<=n;i++)
-    {
-        for(j=1;j<=n;j++)
-            scanf("%d",&a[i][j]);
-    }
-    for(i=1;i<=n;i++)
-        visited[i]=0;
-    for(i=1;i<=n;i++)
-    {
-        if(visited[i]==0)
-        {
-            bfs(a,n,visited,i);
-            count++;
-        }
-    }
-    if(count==1)
-        printf("\n Graph connected %d component",count);
-    else
-        printf("\n Graph not connected %d component",count);
-    return 0;
+ char t[20],p[10];
+ int flag;
+ printf("\nRead text:\n");
+ scanf("%s",t);
+ printf("\nRead Pattern:\n");
+ scanf("%s",p);
+ flag=bfsm(t,p);
+ if(flag==-1)
+ {
+    printf("\n pattern not found  at\n");
+   printf("\nCount=%d",count);
+}
+ else
+ {
+
+
+    printf("\n pattern found %d",flag+1);
+    printf("\nCount=%d",count-1);
+ }
 }
