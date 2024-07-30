@@ -1,46 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-int count;
-int bfsm(char t[20], char p[10])
+int w[10],x[10],d;
+void sum_subset(int s,int k,int r)
 {
-    int n,m,i,j;
-    n=strlen(t);
-    m=strlen(p);
-    for(i=0;i<=n;i++)
+    int i;
+    static int b=1;
+    x[k]=1;
+    if(w[k]+s==d)
     {
-        j=0;
-        while(j<m&&p[j]==t[i+j])
+        printf("\nSolution %d=",b++);
+        for(i=1;i<=k;i++)
         {
-            j=j+1;
-            count++;
+            if(x[i]==1)
+                printf("%d\t",w[i]);
         }
-        count++;
-        if(j==m)
-
-         return i;
+        printf("\n");
     }
-    return -1;
+    else if(s+w[k]+w[k+1]<=d)
+        sum_subset(s+w[k],k+1,r-w[k]);
+    if(s+r-w[k]>=d && s+w[k+1]<=d)
+    {
+        x[k]=0;
+        sum_subset(s,k+1,r-w[k]);
+    }
+    if(b==1)
+    {
+        printf("NO solution");
+        exit(0);
+    }
 }
 int main()
 {
- char t[20],p[10];
- int flag;
- printf("\nRead text:\n");
- scanf("%s",t);
- printf("\nRead Pattern:\n");
- scanf("%s",p);
- flag=bfsm(t,p);
- if(flag==-1)
- {
-    printf("\n pattern not found  at\n");
-   printf("\nCount=%d",count);
-}
- else
- {
-
-
-    printf("\n pattern found %d",flag+1);
-    printf("\nCount=%d",count-1);
- }
+    int i,n,sum=0;
+    printf("\nRead number of elements");
+    scanf("%d",&n);
+    printf("\nRead elements in increasing order\n");
+    for(i=1;i<=n;i++)
+    {
+        scanf("%d",&w[i]);
+        sum=sum+w[i];
+    }
+    printf("\n Read value for d");
+    scanf("%d",&d);
+    sum_subset(0,1,sum);
+    return 0;
 }
