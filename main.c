@@ -1,47 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-int w[10],x[10],d;
-void sum_subset(int s,int k,int r)
+int min(int a,int b)
 {
-    int i;
-    static int b=1;
-    x[k]=1;
-    if(w[k]+s==d)
-    {
-        printf("\nSolution %d=",b++);
-        for(i=1;i<=k;i++)
-        {
-            if(x[i]==1)
-                printf("%d\t",w[i]);
-        }
-        printf("\n");
-    }
-    else if(s+w[k]+w[k+1]<=d)
-        sum_subset(s+w[k],k+1,r-w[k]);
-    if(s+r-w[k]>=d && s+w[k+1]<=d)
-    {
-        x[k]=0;
-        sum_subset(s,k+1,r-w[k]);
-    }
-    if(b==1)
-    {
-        printf("NO solution");
-        exit(0);
-    }
+    if(a<b)
+
+        return a;
+        else
+        return b;
+
+
+}
+void Floyds(int A[10][10],int n)
+{
+    int i,j,k;
+    for(k=1;k<=n;k++)
+        for(i=1;i<=n;i++)
+          for(j=1;j<=n;j++)
+              A[i][j]=min(A[i][j],A[i][k]+A[k][j]);
+
 }
 int main()
 {
-    int i,n,sum=0;
-    printf("\nRead number of elements");
+    int n,A[10][10],i,j;
+    printf("\nEnter the number of nodes");
     scanf("%d",&n);
-    printf("\nRead elements in increasing order\n");
+    for(i=1;i<=n;i++)
+        for(j=1;j<=n;j++)
+           scanf("%d",&A[i][j]);
+    Floyds(A,n);
+    printf("ALL pair shortestpath");
     for(i=1;i<=n;i++)
     {
-        scanf("%d",&w[i]);
-        sum=sum+w[i];
+        for(j=1;j<=n;j++)
+        {
+            printf("%d\t",A[i][j]);
+        }
+        printf("\n");
+
     }
-    printf("\n Read value for d");
-    scanf("%d",&d);
-    sum_subset(0,1,sum);
     return 0;
+
 }
